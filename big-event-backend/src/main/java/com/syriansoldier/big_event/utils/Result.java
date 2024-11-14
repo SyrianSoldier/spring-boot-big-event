@@ -16,21 +16,26 @@ public class Result <T>  {
         this.data = data;
     }
 
-    public static <DataType> Result<DataType> success(String message, DataType data){
-        return new Result<DataType>("200",message,data);
+    public static <DataType> Result<DataType> success(){
+        return new Result<DataType>("200","操作成功",null);
     }
 
     public static <DataType> Result<DataType> success(DataType data){
         return new Result<DataType>("200","操作成功",data);
     }
 
-    public static <DataType> Result<DataType> error (String message){
-        return new Result<DataType>("500",message, null);
+    public static <DataType> Result<DataType> success(String message, DataType data){
+        return new Result<DataType>("200",message,data);
     }
 
     public static <DataType> Result<DataType> error (){
         return new Result<DataType>("500","操作失败", null);
     }
+
+    public static <DataType> Result<DataType> error (String message){
+        return new Result<DataType>("500",message, null);
+    }
+
 
     public String getCode() {
         return code;
