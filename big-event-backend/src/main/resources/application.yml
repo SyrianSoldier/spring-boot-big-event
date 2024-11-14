@@ -2,10 +2,10 @@ spring:
   application:
     name: big-event
   datasource:
-    url: jdbc:mysql://localhost:3306/big_event
+    url: jdbc:mysql://localhost:3306/big_event?useSSL=false&serverTimezone=UTC
     username: root
-    password: 1234
-    driver-class-name: com.mysql.jdbc.Driver
+    password: root
+    driver-class-name: com.mysql.cj.jdbc.Driver
 
 server:
   port: 8080
