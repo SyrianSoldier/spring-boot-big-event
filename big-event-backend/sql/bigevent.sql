@@ -11,9 +11,9 @@ create table `user`(
   user_id             int unsigned        primary key auto_increment              comment '用户id',
   username            varchar(30)         not null unique                         comment '用户名',
   password            varchar(32)         not null                                comment '密码',
-  nickname            varchar(30)         not null                                comment '昵称',
-  email               varchar(30)         not null unique                         comment '邮箱',
-  user_pic            varchar(200)        not null                                comment '头像',
+  nickname            varchar(30)                                                 comment '昵称',
+  email               varchar(30)         unique                                  comment '邮箱',
+  user_pic            varchar(200)                                                comment '头像',
   created_time        datetime            not null default now()                   comment '创建时间',
   updated_time        datetime            not null default now() on update now()   comment '更新时间'
 ) auto_increment = 1, comment = '用户表';
