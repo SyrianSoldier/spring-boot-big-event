@@ -2,11 +2,14 @@ package com.syriansoldier.big_event.controller;
 
 import com.syriansoldier.big_event.dto.LoginDto;
 import com.syriansoldier.big_event.dto.RegisterDto;
+import com.syriansoldier.big_event.dto.UpdateUserInfoDto;
 import com.syriansoldier.big_event.pojo.User;
 import com.syriansoldier.big_event.service.impl.UserServiceImpl;
 import com.syriansoldier.big_event.utils.JwtUtils;
 import com.syriansoldier.big_event.utils.Result;
+import com.syriansoldier.big_event.utils.ThreadLocalUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.util.DigestUtils;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -24,6 +27,9 @@ public class UserController {
     @Autowired
     JwtUtils jwtUtils;
 
+
+    @Value("${token.header}")
+    String tokenHeader;
     @PostMapping("/register")
     public Result<?> register(@Validated @ModelAttribute RegisterDto params){
         // 1. 查询用户是否存在
@@ -56,6 +62,21 @@ public class UserController {
         String token = jwtUtils.genJwt(claims);
 
         return Result.success("登录成功", token);
+    }
+
+    @GetMapping("/userinfo")
+    public Result<User> userinfo(/*@RequestHeader(name = "Authorization") String token*/){
+        Map<String,Object> userMap = ThreadLocalUtils.get();
+
+        User user = userService.findUserByUsername((String) userMap.get("username"));
+
+        return Result.success(user);
+    }
+
+    @PutMapping("/update")
+    public Result<?> update(@Validated @RequestBody UpdateUserInfoDto userinfo){
+         userService.update(userinfo);
+         return Result.success();
     }
 
     @PostMapping("/test")

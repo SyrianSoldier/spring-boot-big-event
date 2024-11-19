@@ -1,5 +1,6 @@
 package com.syriansoldier.big_event.service.impl;
 
+import com.syriansoldier.big_event.dto.UpdateUserInfoDto;
 import com.syriansoldier.big_event.mapper.UserMapper;
 import com.syriansoldier.big_event.pojo.User;
 import com.syriansoldier.big_event.service.UserService;
@@ -19,5 +20,10 @@ public class UserServiceImpl implements UserService {
     @Override
     public void register(String username, String password) {
         userMapper.register(username, DigestUtils.md5DigestAsHex(password.getBytes()));
+    }
+
+    @Override
+    public void update(UpdateUserInfoDto userinfo) {
+        userMapper.update(userinfo);
     }
 }

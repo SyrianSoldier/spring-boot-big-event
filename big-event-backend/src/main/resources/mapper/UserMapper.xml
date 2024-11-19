@@ -13,4 +13,14 @@
         values
             (#{username}, #{password})
     </insert>
+
+    <update id="update">
+        update user
+        set
+        username = #{user.username},
+        nickname = #{user.nickname},
+        email = #{user.email}
+        WHERE
+        user_id = #{user.id}
+    </update>
 </mapper>
