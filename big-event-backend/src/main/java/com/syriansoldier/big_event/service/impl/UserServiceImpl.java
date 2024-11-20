@@ -12,6 +12,7 @@ import org.springframework.util.DigestUtils;
 public class UserServiceImpl implements UserService {
     @Autowired
     private UserMapper userMapper;
+
     @Override
     public User findUserByUsername(String username) {
         return userMapper.findUserByUsername(username);
@@ -25,5 +26,15 @@ public class UserServiceImpl implements UserService {
     @Override
     public void update(UpdateUserInfoDto userinfo) {
         userMapper.update(userinfo);
+    }
+
+    @Override
+    public void updateAvatar(Integer id, String avatarUrl) {
+        userMapper.updateAvatar(id, avatarUrl);
+    }
+
+    @Override
+    public void updatePwd(Integer userId, String new_pwd) {
+        userMapper.updatePwd(userId, DigestUtils.md5DigestAsHex(new_pwd.getBytes()));
     }
 }

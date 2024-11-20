@@ -5,7 +5,7 @@ import lombok.Data;
 
 @Data
 public class User {
-    private Long userId;
+    private Integer userId;
     private String username;
     @JsonIgnore
     private String password;
