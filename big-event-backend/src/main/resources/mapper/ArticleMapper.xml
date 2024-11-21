@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.syriansoldier.big_event.mapper.ArticleMapper">
+  <insert id="add">
+    insert into `article` (cat_id, created_user, article_status, article_title, article_content, article_cover)
+    values
+      (#{body.catId}, #{userId}, #{body.articleStatus}, #{body.articleTitle}, #{body.articleContent}, #{body.articleCover});
+  </insert>
+
+  <delete id="delete">
+    delete from `article` where id = #{id};
+  </delete>
+
+  <select id="detail" resultType="com.syriansoldier.big_event.pojo.Article">
+    select * from `article` where id = #{id};
+  </select>
+
+  <update id="update">
+    update `article`
+    <set>
+      <if test="body.catId != null">cat_id = #{body.catId},</if>
+      <if test="body.articleStatus != null">article_status = #{body.articleStatus},</if>
+      <if test="body.articleTitle != null">article_title = #{body.articleTitle},</if>
+      <if test="body.articleContent != null">article_content = #{body.articleContent},</if>
+      <if test="body.articleCover != null">article_cover = #{body.articleCover},</if>
+    </set>
+    where id = #{id};
+  </update>
+
+  <select id="list" resultType="com.syriansoldier.big_event.pojo.Article">
+    select * from `article`
+    <where>
+      <if test="catId != null">cat_id = #{catId}</if>
+      <if test="articleStatus != null">and article_status = #{articleStatus}</if>
+    </where>
+  </select>
+
+</mapper>
+

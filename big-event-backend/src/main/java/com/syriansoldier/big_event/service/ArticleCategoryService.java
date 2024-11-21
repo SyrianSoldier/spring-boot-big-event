@@ -2,8 +2,6 @@ package com.syriansoldier.big_event.service;
 
 import java.util.List;
 
-import javax.validation.constraints.NotNull;
-
 import com.syriansoldier.big_event.dto.ArticleCategoryDto;
 import com.syriansoldier.big_event.pojo.ArticleCategory;
 
