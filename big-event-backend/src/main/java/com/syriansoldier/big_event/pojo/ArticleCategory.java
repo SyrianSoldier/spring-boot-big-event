@@ -7,7 +7,7 @@ public class ArticleCategory {
   private Integer id;
   private String catName;
   private String catAlias;
-  private Integer created_user;
+  private Integer createdUser;
   private String createdTime;
   private String updatedTime;
 }

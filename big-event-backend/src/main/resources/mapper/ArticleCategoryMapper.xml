@@ -9,5 +9,26 @@
     values
         (#{body.categoryName}, #{body.categoryAlias}, #{userid})
   </insert>
+
+  <select id="list" resultType="com.syriansoldier.big_event.pojo.ArticleCategory">
+    select * from `article_cate` where created_user = #{createUserId}
+  </select>
+
+  <select id="detail" resultType="com.syriansoldier.big_event.pojo.ArticleCategory">
+    select * from `article_cate` where id = #{id}
+  </select>
+
+  <delete id="delete">
+    delete from `article_cate` where id = #{id}
+  </delete>
+
+  <update id="update">
+    update `article_cate` 
+    set 
+    cat_name = #{body.categoryName}, 
+    cat_alias = #{body.categoryAlias} 
+    where id = #{body.id}
+  </update>
+
 </mapper>
 

@@ -21,13 +21,14 @@ public class HttpInterceptor implements HandlerInterceptor {
     JwtUtils jwtUtils;
 
     @Override
-    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
+            throws Exception {
         try {
             String header = request.getHeader(tokenHeader);
             Map<String, Object> claims = jwtUtils.parseJWT(header);
             ThreadLocalUtils.set(claims);
             return true;
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             response.setStatus(401);
             return false;
@@ -35,7 +36,8 @@ public class HttpInterceptor implements HandlerInterceptor {
     }
 
     @Override
-    public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
+    public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex)
+            throws Exception {
         ThreadLocalUtils.remove();
     }
 }
