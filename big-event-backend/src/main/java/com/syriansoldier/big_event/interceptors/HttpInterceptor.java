@@ -5,6 +5,7 @@ import com.syriansoldier.big_event.utils.Result;
 import com.syriansoldier.big_event.utils.ThreadLocalUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 
@@ -20,12 +21,21 @@ public class HttpInterceptor implements HandlerInterceptor {
     @Autowired
     JwtUtils jwtUtils;
 
+    @Autowired
+    StringRedisTemplate redisTemplate;
+
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
             throws Exception {
         try {
-            String header = request.getHeader(tokenHeader);
-            Map<String, Object> claims = jwtUtils.parseJWT(header);
+            String token = request.getHeader(tokenHeader);
+            String redisToken = redisTemplate.opsForValue().get("token");
+            if (redisToken == null || !token.equals(redisToken)) {
+                response.setStatus(401);
+                return false;
+            }
+
+            Map<String, Object> claims = jwtUtils.parseJWT(token);
             ThreadLocalUtils.set(claims);
             return true;
         } catch (Exception e) {

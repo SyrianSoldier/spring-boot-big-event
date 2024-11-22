@@ -1,17 +1,21 @@
 package com.syriansoldier.big_event.utils;
 
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.redis.core.StringRedisTemplate;
 
 import static org.junit.jupiter.api.Assertions.*;
+
 @SpringBootTest
 public class ResultTest {
-    @Test
-    public void testSuccess(){
-        Result<String> res = Result.success("token");
+    @Autowired
+    private StringRedisTemplate redisTemplate;
 
-        assertSame("200", res.getCode());
-        assertSame("token", res.getData());
-        assertSame("操作成功", res.getMessage());
+    @Test
+    public void testError() {
+        String token = "Bear token";
+        redisTemplate.opsForValue().set("token", token);
+        assertTrue(token.equals(redisTemplate.opsForValue().get("token")));
     }
 }

@@ -13,6 +13,7 @@ import com.syriansoldier.big_event.utils.ThreadLocalUtils;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.util.DigestUtils;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -25,6 +26,9 @@ import java.util.Map;
 public class UserController {
     @Autowired
     private UserServiceImpl userService;
+
+    @Autowired
+    private StringRedisTemplate redisTemplate;
 
     @Autowired
     JwtUtils jwtUtils;
@@ -63,6 +67,8 @@ public class UserController {
         claims.put("username", user.getUsername());
         String token = jwtUtils.genJwt(claims);
 
+        // 将token存入redis
+        redisTemplate.opsForValue().set("token", token);
         return Result.success("登录成功", token);
     }
 
@@ -113,6 +119,10 @@ public class UserController {
 
         // 3. 更新密码
         userService.updatePwd(user.getUserId(), body.getNew_pwd());
+
+        // 4. 清除redis中的token, 使原有的token失效
+        redisTemplate.delete("token");
+
         return Result.success("更新密码成功", null);
     }
 
